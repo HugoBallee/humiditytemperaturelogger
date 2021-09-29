@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd ~/humiditytemperaturelogger/
 echo "**************************"
 echo "*      SAVING STASH      *"
