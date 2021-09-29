@@ -1,9 +1,8 @@
 #!/bin/bash
-while ! ping -c 1 -W 1 1.2.3.4; do
-    sudo echo "Waiting for 1.2.3.4 - network interface might be down..." >> /home/pi/run.txt
+while ! nc -zw1 google.com 443; then
+    sudo echo "Waiting for connectivity..." >> /home/pi/run.txt
     sleep 1
 done
-
 
 sudo echo "**************************"
 sudo echo "*      SAVING STASH      *"
