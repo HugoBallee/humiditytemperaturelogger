@@ -1,3 +1,3 @@
 cd ~/humiditytemperaturelogger/
 git pull -f
-./runserver.sh
+python3 ./humiditytemperaturelogger/manage.py runserver 0.0.0.0:8000
