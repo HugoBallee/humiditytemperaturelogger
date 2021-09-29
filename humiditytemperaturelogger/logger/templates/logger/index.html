@@ -1,0 +1,231 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'logger/style.css' %}">
+
+{% block content %}
+  <div id="container">
+    <canvas id="chart"></canvas>
+  </div>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1"></script>
+
+  <script type="text/javascript">
+  	let ctx = document.getElementById("chart").getContext("2d");
+
+		let chart = new Chart(ctx, {
+			type: "line",	
+			data: {
+				labels: [{% for log in logs %}'{{ log.date|date:"j/n/y G:i" }}',{% endfor %}],
+				datasets: [
+					{
+						yAxisID: 'minHumidity',
+						label: "Min humidity (%)",
+						borderColor: "#5cc3e6",
+						backgroundColor: "#5cc3e6",
+						fill: false,
+						cubicInterpolationMode: 'monotone',
+						pointHoverRadius: 0,
+						pointRadius: 0,
+						borderWidth: 1,
+						borderDash: [5, 5],
+						data: [{% for limit in humidityLimits.min %}{{ limit }},{% endfor %}]
+					},
+					{
+						yAxisID: 'humidity',
+						label: "Humidity (%)",
+						borderColor: "#5cc3e6",
+						backgroundColor: "#5cc3e6",
+						fill: false,
+						cubicInterpolationMode: 'monotone',
+						pointHoverRadius: 10,
+						data: [{% for log in logs %}{{ log.humidity }},{% endfor %}]
+					},
+					{
+						yAxisID: 'maxHumidity',
+						label: "Max humidity (%)",
+						borderColor: "#5cc3e6",
+						backgroundColor: "#5cc3e6",
+						fill: false,
+						cubicInterpolationMode: 'monotone',
+						pointHoverRadius: 0,
+						pointRadius: 0,
+						borderWidth: 1,
+						borderDash: [5, 5],
+						data: [{% for limit in humidityLimits.max %}{{ limit }},{% endfor %}]
+					},
+					{
+						yAxisID: 'minTemperature',
+						label: "Min temperature (°C)",
+						borderColor: "#e65c5c",
+						backgroundColor: "#e65c5c",
+						fill: false,
+						cubicInterpolationMode: 'monotone',
+						pointHoverRadius: 0,
+						pointRadius: 0,
+						borderWidth: 1,
+						borderWidth: 1,
+						borderDash: [5, 5],
+						data: [{% for limit in temperatureLimits.min %}{{ limit }},{% endfor %}]
+					},
+					{
+						yAxisID: 'temperature',
+						label: "Temperature (°C)",
+						borderColor: "#e65c5c",
+						backgroundColor: "#e65c5c",
+						fill: false,
+						cubicInterpolationMode: 'monotone',
+						pointHoverRadius: 10,
+						data: [{% for log in logs %}{{ log.temperature }},{% endfor %}]
+					},
+					{
+						yAxisID: 'maxTemperature',
+						label: "Max temperature (°C)",
+						borderColor: "#e65c5c",
+						backgroundColor: "#e65c5c",
+						fill: false,
+						cubicInterpolationMode: 'monotone',
+						pointHoverRadius: 0,
+						pointRadius: 0,
+						borderWidth: 1,
+						borderDash: [5, 5],
+						data: [{% for limit in temperatureLimits.max %}{{ limit }},{% endfor %}]
+					},
+				]
+			},
+			options: {
+				scales: {
+					humidity: {
+						title: {
+							display: true,
+							text: "",
+							color: "#5cc3e6",
+						},
+						position: 'left',
+						min: 40,
+						max: 70,
+						ticks: {
+							callback: function(value, index, values) {
+								return value + '%';
+							},
+							color: "#5cc3e6",
+						}
+					},
+					temperature: {
+						title: {
+							display: true,
+							text: "",
+							color: "#e65c5c",
+						},
+						position: 'right',
+						min: 5,
+						max: 35,
+						ticks: {
+							callback: function(value, index, values) {
+								return value + '°C';
+							},
+							color: "#e65c5c",
+						}
+					},
+					minTemperature: {
+						display: false,
+						position: 'right',
+						min: 5,
+						max: 35,
+					},
+					maxTemperature: {
+						display: false,
+						position: 'right',
+						min: 5,
+						max: 35,
+					},
+					minHumidity: {
+						display: false,
+						position: 'left',
+						min: 40,
+						max: 70,
+					},
+					maxHumidity: {
+						display: false,
+						position: 'left',
+						min: 40,
+						max: 70,
+					},
+				},
+				interaction: {
+					intersect: false,
+					mode: 'x',
+				},
+				// transitions: {
+		  //     show: {
+		  //       animations: {
+		  //         y: {
+		  //           from: 0
+		  //         }
+		  //       }
+		  //     },
+		  //     hide: {
+		  //       animations: {
+		  //         y: {
+		  //           to: 0
+		  //         }
+		  //       }
+		  //     }
+		  //   },
+				responsive: true,
+				layout: {
+					padding: 20
+				},
+				plugins: {
+					title: {
+						text: "Humidity and temperature",
+						display: true
+					},
+					tooltip: {
+						callbacks: {
+							label: function(context) {
+								if (context.dataset.label.includes('Min') || context.dataset.label.includes('Max'))
+									return context.dataset.label;
+								var label = context.dataset.label || '';
+								return label.replace('(', '').replace(' ', ' ' + context.parsed.y).replace(')', '');
+							},
+						},
+						filter: function(item, chart) {
+              return !item.dataset.label.includes('Max') && !item.dataset.label.includes('Min');
+            }
+					},
+					legend: {
+						display: true,
+						fullSize: true,
+						labels: {
+							usePointStyle: true,
+							filter: function(item, chart) {
+                  return !item.text.includes('Max temperature (°C)') && !item.text.includes('Min temperature (°C)') && !item.text.includes('Max humidity (%)') && !item.text.includes('Min humidity (%)');
+                }
+						},
+						onClick: function(e, legendItem, legend) {
+							const index = legendItem.datasetIndex;
+							const yAxisID = legend.chart.data.datasets[index].yAxisID;
+							const ci = legend.chart;
+							if (ci.isDatasetVisible(index)) {
+								ci.hide(index-1);
+								ci.hide(index);
+								ci.hide(index+1);
+								legendItem.hidden = true;
+								legend.chart.options.scales[yAxisID].display = false;
+							} else {
+								ci.show(index-1);
+								ci.show(index);
+								ci.show(index+1);
+								legendItem.hidden = false;
+								legend.chart.options.scales[yAxisID].display = true;
+							}
+							legend.chart.update();
+						},
+					},
+				},
+			},
+		});
+  </script>
+{% endblock %}
+
+<p><a href="../admin/">Administration</a></p>
