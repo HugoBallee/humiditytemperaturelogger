@@ -16,5 +16,5 @@ echo "**************************"
 echo "*    LAUNCHING SERVER    *"
 echo "**************************"
 echo "4" >> /home/pi/run.txt
-python3 ./humiditytemperaturelogger/manage.py runserver 0.0.0.0:8000  2>>/home/pi/err.txt &
+sudo python3 ./humiditytemperaturelogger/manage.py runserver 0.0.0.0:8000  2>>/home/pi/err.txt &
 echo "5" >> /home/pi/run.txt
