@@ -1,7 +1,8 @@
 #!/bin/bash
-while ! nc -zw1 google.com 443; then
-    sudo echo "Waiting for connectivity..." >> /home/pi/run.txt
-    sleep 1
+while [! nc -zw1 google.com 443]
+do
+	sudo echo "Waiting for connectivity..." >> /home/pi/run.txt
+	sleep 1
 done
 
 sudo echo "**************************"
