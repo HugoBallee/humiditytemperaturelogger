@@ -8,7 +8,7 @@ sudo echo "**************************"
 sudo echo "*      SAVING STASH      *"
 sudo echo "**************************"
 sudo echo "stash" >> /home/pi/run.txt
-sudo git -C /home/pi/humiditytemperaturelogger/ stash 2>/home/pi/err.txt
+sudo git -C /home/pi/humiditytemperaturelogger/ stash 2>>/home/pi/err.txt
 sudo echo "**************************"
 sudo echo "*        UPDATING        *"
 sudo echo "**************************"
