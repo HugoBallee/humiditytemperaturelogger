@@ -7,7 +7,8 @@ echo "**************************"
 echo "*        UPDATING        *"
 echo "**************************"
 git pull -f
-chmod +x updateandrunserver.sh
+cp ./updateandrunserver.sh /etc/rc.local/updateandrunserver.sh
+chmod +x /etc/rc.local/updateandrunserver.sh
 echo "**************************"
 echo "*    LAUNCHING SERVER    *"
 echo "**************************"
