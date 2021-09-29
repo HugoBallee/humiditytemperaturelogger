@@ -1,3 +1,3 @@
 cd ~/humiditytemperaturelogger/
-git pull
+git pull -f
 ./runserver.sh
