@@ -12,4 +12,4 @@ git pull -f
 echo "**************************"
 echo "*    LAUNCHING SERVER    *"
 echo "**************************"
-python3 ./humiditytemperaturelogger/manage.py runserver 0.0.0.0:8000
+python3 ./humiditytemperaturelogger/manage.py runserver 0.0.0.0:8000 &
