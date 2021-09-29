@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "1" >> /home/pi/run.txt
-cd ~/humiditytemperaturelogger/ 2>/home/pi/err.txt
+cd home/pi/humiditytemperaturelogger/ 2>/home/pi/err.txt
 echo "**************************"
 echo "*      SAVING STASH      *"
 echo "**************************"
