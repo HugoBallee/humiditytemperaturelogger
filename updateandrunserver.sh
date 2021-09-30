@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "start"
 source "${1}webservervenv/bin/activate"
 until $(curl --output /dev/null --silent --head --fail https://github.com); do
