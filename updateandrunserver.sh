@@ -1,4 +1,4 @@
-WD="${WD}"
+WD="/home/pi/humiditytemperaturelogger/"
 
 echo "start" >"${WD}log.txt"
 source "${WD}webservervenv/bin/activate" &>>"${WD}log.txt"
