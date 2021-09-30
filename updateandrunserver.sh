@@ -1,5 +1,3 @@
-#!/bin/bash
-
 sudo echo "Checking connection to https://github.com ..." >>/home/pi/log.txt
 until $(curl --output /dev/null --silent --head --fail https://github.com); do
     echo "." >>/home/pi/log.txt
