@@ -1,13 +1,20 @@
 import adafruit_dht
 import requests
 import time
+import signal
 
 from board import D23
+
+def handler(signum, frame):
+	print(f'timeout')
 
 def connectDHT11(pin):
 	while True:
 		try:
+			signal.signal(signal.SIGALRM, handler)
+			signal.alarm(5)
 			dht_device = adafruit_dht.DHT11(pin)
+			signal.alarm(0)
 			if dht_device is not None:
 				return dht_device
 			print(f'dht_device is None')
