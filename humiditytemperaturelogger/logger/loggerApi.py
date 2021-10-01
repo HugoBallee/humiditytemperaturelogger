@@ -1,8 +1,49 @@
+import adafruit_dht
 import requests
+import time
+
+from board import D23
+
+def connectDHT11(pin):
+	while True:
+		try:
+			dht_device = adafruit_dht.DHT11(pin)
+			if dht_device is not None:
+				return dht_device
+			print(f'dht_device is None')
+		except RuntimeError as error:
+			print(f'{error}')
+		time.sleep(1)
+
+
+def get_temperature():
+	while True:
+		try:
+			temperature = dht_device.temperature
+			if temperature is not None:
+				return temperature
+			print(f'temperature is None')
+		except RuntimeError as error:
+			print(f'{error}')
+		time.sleep(1)
+
+def get_humidity():
+	while True:
+		try:
+			humidity = dht_device.humidity
+			if humidity is not None:
+				return humidity
+			print(f'humidity is None')
+		except RuntimeError as error:
+			print(f'{error}')
+		time.sleep(1)
 
 def log():
-	humidity = 50
-	temperature = 20
+	dht_device = connectDHT11(D23)
+	temperature = get_temperature()
+	humidity = get_humidity()
 	r = requests.get(f'http://127.0.0.1:8000/log/{humidity}/{temperature}')
 	if r.status_code is not 200:
 		error(f'STATUS_CODE:{r.status_code} {r.text}')
+	else:
+		print(f'{r.text}')
