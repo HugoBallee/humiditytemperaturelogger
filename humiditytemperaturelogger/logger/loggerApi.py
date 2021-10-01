@@ -7,7 +7,7 @@ from board import D23
 def connectDHT11(pin):
 	while True:
 		try:
-			dht_device = adafruit_dht.DHT11(pin, use_pulseio=False)
+			dht_device = adafruit_dht.DHT11(pin)
 			if dht_device is not None:
 				return dht_device
 			print(f'dht_device is None')
