@@ -1,4 +1,4 @@
-import requets
+import requests
 
 def log():
 	humidity = 50
