@@ -46,8 +46,9 @@ def log():
 	temperature = get_temperature(dht_device)
 	print(f'log: c')
 	humidity = get_humidity(dht_device)
-	exit(dht_device)
 	print(f'log: d')
+	dht_device.exit()
+	print(f'log: e')
 	r = requests.get(f'http://127.0.0.1:8000/log/{humidity}/{temperature}')
 	if r.status_code is not 200:
 		print(f'STATUS_CODE:{r.status_code} {r.text}')
