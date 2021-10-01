@@ -2,7 +2,7 @@ import adafruit_dht
 import requests
 import time
 
-from board import D22
+from board import D18
 
 def connectDHT11(pin):
 	while True:
@@ -39,7 +39,7 @@ def get_humidity(dht_device):
 		time.sleep(1)
 
 def log():
-	dht_device = connectDHT11(D22)
+	dht_device = connectDHT11(D18)
 	temperature = get_temperature(dht_device)
 	humidity = get_humidity(dht_device)
 	exit(dht_device)
