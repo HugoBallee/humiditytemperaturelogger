@@ -10,9 +10,9 @@ def connectDHT11(pin):
 			dht_device = adafruit_dht.DHT11(pin)
 			if dht_device is not None:
 				return dht_device
-			error(f'dht_device is None')
+			print(f'dht_device is None')
 		except RuntimeError as error:
-			error(f'connectDHT11: {error}')
+			print(f'connectDHT11: {error}')
 		time.sleep(1)
 
 
@@ -22,9 +22,9 @@ def get_temperature(dht_device):
 			temperature = dht_device.temperature
 			if temperature is not None:
 				return temperature
-			error(f'temperature is None')
+			print(f'temperature is None')
 		except RuntimeError as error:
-			error(f'get_temperature: {error}')
+			print(f'get_temperature: {error}')
 		time.sleep(1)
 
 def get_humidity(dht_device):
@@ -33,9 +33,9 @@ def get_humidity(dht_device):
 			humidity = dht_device.humidity
 			if humidity is not None:
 				return humidity
-			error(f'humidity is None')
+			print(f'humidity is None')
 		except RuntimeError as error:
-			error(f'get_humidity: {error}')
+			print(f'get_humidity: {error}')
 		time.sleep(1)
 
 def log():
@@ -45,6 +45,6 @@ def log():
 	exit(dht_device)
 	r = requests.get(f'http://127.0.0.1:8000/log/{humidity}/{temperature}')
 	if r.status_code is not 200:
-		error(f'STATUS_CODE:{r.status_code} {r.text}')
+		print(f'STATUS_CODE:{r.status_code} {r.text}')
 	else:
 		print(f'log: {r.text}')
