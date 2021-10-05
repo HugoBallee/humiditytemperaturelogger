@@ -7,7 +7,7 @@ from .models import TemperatureLimits
 
 # Create your views here.
 def index(request):
-	logs = Log.objects.order_by('date')
+	logs = Log.objects.order_by('date')[:24]
 	humidityLimits = HumidityLimits.objects.all()[0]
 	temperatureLimits = TemperatureLimits.objects.all()[0]
 	humidityMins = [humidityLimits.min_humidity for x in range(len(logs))]
