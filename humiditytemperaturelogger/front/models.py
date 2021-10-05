@@ -6,6 +6,9 @@ class Log(models.Model):
 	humidity = models.FloatField()
 	temperature = models.FloatField()
 	
+	def is_recent(self):
+		return self.date >= timezone.now() - datetime.timedelta(days=1)
+
 	def __str__(self):
 		return f'{self.date}(humidity: {self.humidity}%, temperature: {self.temperature}°C)'
 
