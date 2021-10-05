@@ -7,4 +7,5 @@ def log():
 	if r.status_code is not 200:
 		print(f'STATUS_CODE:{r.status_code} {r.text}')
 	else:
-		print(f'log: {r.text}')
+		# print(f'log: {r.text}')
+		pass
